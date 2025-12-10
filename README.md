@@ -24,14 +24,22 @@ ou
 
 `(base)$ conda activate vitiscan_cnn`
 
-- déclarer le noyau ipykernel pour Jupyter
+- déclarer le noyau ipykernel pour Jupyter (doit être fait avec l'environnement correspondant activé)
 
 `(vitiscan_cnn)$ python -m ipykernel install --user --name vitiscan_cnn --display-name "Vitiscan CNN"`
 
+- pour ajouter une lib, ajoutez là aux dépendances et faite
+`conda env update -f env_vitiscan_cnn.yml`
 
 ## Préparation des données
 
 [Dataset Kaggle Grapes Leafs Disease PlantCity 2025](https://www.kaggle.com/datasets/codewithsk/grapes-leafs-disease-7-classes-plantcity-2025)
+
+A l'extraction du ZIP on s'aperçoit que :
+
+- les images sont déjà augmentés par des flips
+- doublonnage du nom de répertoire train/train ou test/test
+- des noms de répertoire pour les classes pas bien normalisés
 
 
 ## Lancement de l'entrainement des données
