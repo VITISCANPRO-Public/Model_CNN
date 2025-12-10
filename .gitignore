@@ -1,6 +1,6 @@
 data/test/
 data/train/
-data/val/
+data/*.zip
 **/.DS_Store
 
 # Python-generated files
