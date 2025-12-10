@@ -40,6 +40,7 @@ dependencies:
   - tqdm>=4.66.0
   - pillow>=10.0.0
   - requests>=2.31.0
+  - torchinfo==1.8.0
   
   # Jupyter (pour notebooks)
   - notebook
