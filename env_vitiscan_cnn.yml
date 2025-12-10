@@ -33,6 +33,7 @@ dependencies:
   
   # Visualisation
   - matplotlib>=3.9.0
+  - plotly
   - seaborn>=0.13.0
   
   # Utilitaires
