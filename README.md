@@ -26,7 +26,7 @@ ou
 
 - déclarer le noyau ipykernel pour Jupyter
 
-`(jedha_rag)$ python -m ipykernel install --user -n vitiscan_cnn --display-name "Vitiscan CNN"`
+`(vitiscan_cnn)$ python -m ipykernel install --user --name vitiscan_cnn --display-name "Vitiscan CNN"`
 
 
 ## Préparation des données
