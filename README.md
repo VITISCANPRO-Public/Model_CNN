@@ -12,7 +12,7 @@ __Auteurs__ : Mounia, Inti, Samuel, Guillaume
 
 - créer l'environnement python avec conda
 
-`(base)$ conda env create -n jedha_rag --file env_vitiscan_cnn.yml`
+`(base)$ conda env create -n vitiscan_cnn --file env_vitiscan_cnn.yml`
 
 ou
 
