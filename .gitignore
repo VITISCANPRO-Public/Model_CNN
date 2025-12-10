@@ -1,6 +1,7 @@
 data/test/
 data/train/
 data/val/
+**/.DS_Store
 
 # Python-generated files
 __pycache__/
