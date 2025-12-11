@@ -1,6 +1,7 @@
 name: vitiscan_cnn
 channels:
   - pytorch
+  - nvidia # si GPU Nvidia
   - conda-forge
   - defaults
 
@@ -12,6 +13,7 @@ dependencies:
   - pytorch>=2.5.0
   - torchvision>=0.20.0
   - torchaudio>=2.5.0
+  - pytorch-cuda=12.4 # si GPU Nvidia
   
   # MLflow et tracking
   - mlflow=3.7.0

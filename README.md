@@ -18,7 +18,7 @@ ou
 
 `(base)$ conda env create -f env_vitiscan_cnn.yml`
 
-- si vous avec un GPU Nvidia, décommenter la ligne `- nvidia` dans les channels et `- pytorch-cuda=12.4` dans les dependencies
+- si vous avec un GPU Nvidia, utilisez le fichier `env_vitiscan_cnn_gpu.yml` (il contient la ligne `- nvidia` dans les channels et `- pytorch-cuda=12.4` dans les dependencies)
 
 - activer l'environnement
 
