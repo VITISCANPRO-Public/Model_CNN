@@ -1,4 +1,4 @@
-name: vitiscan_cnn
+name: vitiscan_cnn_gpu
 channels:
   - pytorch
   - nvidia # si GPU Nvidia
@@ -26,6 +26,10 @@ dependencies:
   - shap>=0.46.0
   - optuna>=4.1.0
   
+  # AWS pour MLFlow
+  - boto3==1.35.79
+  - s3fs==2025.12.0
+
   # Dépendances scientifiques core
   - numpy>=1.26.0
   - pandas>=2.2.0
