@@ -2,6 +2,7 @@ data/test/
 data/train/
 data/*.zip
 **/.DS_Store
+tests/
 
 # Python-generated files
 __pycache__/
