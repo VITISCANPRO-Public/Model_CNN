@@ -1,6 +1,8 @@
-data-*/
-data/test/
-data/train/
+data-*/*.zip
+data-inrae/raw_data_inrae
+data-inrae/organized_data_inrae
+data-kaggle/test/
+data-kaggle/train/
 data/*.zip
 **/.DS_Store
 tests/
