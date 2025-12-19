@@ -1,11 +1,14 @@
 """
-__________________________________________ CNN MODEL - Vitiscan _____________________________________
-                          Classification of grape leafs with a Resnet18 model
+====================================================================================================
+                                            CNN MODEL - Vitiscan
+                          Classification of grape diseases with a Resnet18 model
+====================================================================================================
+
 """
 
 
 
-#                                          LIBRARIES IMPORT
+#  I. LIBRARIES IMPORT
 # ================================================================================================
 
 import os
@@ -29,7 +32,8 @@ from scripts.visualisation import plot_training_history
 
 load_dotenv()
 
-#                                           MAIN EXECUTION
+
+#  II. MAIN EXECUTION
 # ================================================================================================
 
 def main():
