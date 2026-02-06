@@ -7,7 +7,7 @@ torchvision>=0.20.0
 #torchaudio>=2.5.0
   
   # MLflow et tracking
-mlflow=3.7.0
+mlflow==3.7.0
 tensorboard>=2.18.0
 protobuf>=5.29.0
 cloudpickle>=3.1.0
