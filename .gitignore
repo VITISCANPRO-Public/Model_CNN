@@ -6,7 +6,7 @@ data-kaggle/test/
 data-kaggle/train/
 
 **/.DS_Store
-tests/
+model_tests/
 
 # Python-generated files
 __pycache__/
