@@ -14,10 +14,12 @@ COPY tests/requirements.txt .
 
 # 4. INSTALLATION (With Debugging)
 # We 'cat' the file to the build logs so you can SEE if pandas is listed.
-# RUN echo "===== CHECKING REQUIREMENTS =====" && \
-#     cat requirements.txt && \
-#     echo "=================================" && \
-RUN pip install --no-cache-dir -r requirements.txt
+ RUN echo "===== CHECKING REQUIREMENTS =====" && \
+    cat requirements.txt && \
+    echo "====== UPGRADE PIP ==============" && \
+    pip install --upgrade pip && \
+    echo "=================================" && \
+    pip install --no-cache-dir -r requirements.txt
 
 # 5. Copy Application Code
 COPY . .
