@@ -26,7 +26,7 @@ import seaborn as sns
 
 # Local functions (scripts/)
 from scripts.data_utils import download_dataset, extract_and_prepare_dataset, create_transforms, prepare_datasets, create_dataloaders
-from scripts.model import get_device, create_model_transfer_learning, create_model_fine_tuning
+from scripts.model import get_device, create_model
 from scripts.training import train
 from scripts.visualisation import plot_training_history
 
@@ -83,8 +83,8 @@ def main():
     # 3. Model creation
     print("\n[3/6] Model creation...")
     num_classes = len(class_names)
-    # model, _ = create_model_transfer_learning(MODEL_NAME,num_classes, device, freeze_conv=True)
-    model= create_model_fine_tuning(MODEL_NAME, num_classes, device, "layer4")
+    # model, _ = create_model(MODEL_NAME,num_classes, device, freeze_base=True,unfreeze_layer="layer4")
+    model= create_model(MODEL_NAME, num_classes, device,freeze_base=True,unfreeze_layer="layer4")
 
     # 4. Training setup
     print("\n[4/6] Training setup...")

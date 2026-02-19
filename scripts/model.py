@@ -32,92 +32,83 @@ def get_device():
 #                                       MODEL CREATION
 # ================================================================================================
 
-def create_model_transfer_learning(model_name:str, num_classes: int, device: torch.device, freeze_conv: bool = True):
+def create_model(model_name: str, num_classes: int, device: torch.device, 
+                 freeze_base: bool = True, unfreeze_layer: str = "layer4"):
     """
-    Creates a model for transfer learning
-    
+    Creates a model for transfer learning or fine-tuning.
+    Supports ResNet, EfficientNet and MobileNet architectures.
+    The following models require GPU or longer training time:
+    'resnet50', 'efficientnet_b1', 'efficientnet_b2','mobilenet_v2'
+
     Args:
-        model name : Name of the model to train
+        model_name: Model name ('resnet18', 'resnet34', 'resnet50', 
+                    'efficientnet_b0', 'efficientnet_b1', 'efficientnet_b2',
+                    'mobilenet_v2')
         num_classes: Number of classes to predict
         device: Device (cuda/mps/cpu)
-        freeze_conv: If True, freezes all base model parameters 
-        and trains only the classification head.
+        freeze_base: If True, freezes all layers except the classifier
+        unfreeze_layer: Layer to unfreeze for fine-tuning (ResNet only, e.g. 'layer4')
 
-    Returns:
-        model, trainable_params
-    """
-    
-    if model_name=='resnet18':
-        # Load the pre-trained model
-        model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
-    elif model_name=='resnet34':
-        # Load the pre-trained model
-        model = models.resnet34(weights=models.ResNet34_Weights.DEFAULT)
-
-    model = model.to(device)
-    
-    # Modify the last layer (Classifier)
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
-    
-    # Freeze convolutional layers except the last one
-    if freeze_conv:
-        for param in model.parameters():
-            param.requires_grad = False
-        
-        # Unfreeze the last layer (the new one)
-        for param in model.fc.parameters():
-            param.requires_grad = True
-    
-    model = model.to(device)
-    
-    # Count trainable parameters
-    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    total_params = sum(p.numel() for p in model.parameters())
-    
-    print(f"Model device: {next(model.parameters()).device}")
-    print(f"Trainable parameters: {trainable_params:,} / {total_params:,}")
-    
-    return model, trainable_params
-
-
-
-
-def create_model_fine_tuning(model_name : str, num_classes: int, device: torch.device, unfreeze_layer: str = "layer4"):   
-    """
-    Creates a model for fine-tuning
-    
-    Args:
-        model_name: Name of the model to train
-        num_classes: Number of classes
-        device: Device (cuda/mps/cpu)
-        unfreeze_layer: Name of the layer to unfreeze ("layer4" : the last layer, by default)
-    
     Returns:
         model
     """
-    # Load the pre-trained model based on model_name
+
+    # ---- Load pre-trained model ----
     if model_name == 'resnet18':
         model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
     elif model_name == 'resnet34':
         model = models.resnet34(weights=models.ResNet34_Weights.DEFAULT)
+    elif model_name == 'resnet50':
+        model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+    elif model_name == 'efficientnet_b0':
+        model = models.efficientnet_b0(weights=models.EfficientNet_B0_Weights.DEFAULT)
+    elif model_name == 'efficientnet_b1':
+        model = models.efficientnet_b1(weights=models.EfficientNet_B1_Weights.DEFAULT)
+    elif model_name == 'efficientnet_b2':
+        model = models.efficientnet_b2(weights=models.EfficientNet_B2_Weights.DEFAULT)
+    elif model_name == 'mobilenet_v2':
+        model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
     else:
-        raise ValueError(f"Unsupported model: {model_name}. Choose 'resnet18' or 'resnet34'.")
-    
-    # Modify the last layer (Classifier)
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
-    
-    # Freeze the entire network
-    for param in model.parameters():
-        param.requires_grad = False
-    
-    # Unfreeze the specified layer and the final layer
-    for name, param in model.named_parameters():
-        if unfreeze_layer in name or "fc" in name:
-            param.requires_grad = True
-    
+        raise ValueError(f"Unsupported model: {model_name}. "
+                         f"Choose from: resnet18, resnet34, resnet50, "
+                         f"efficientnet_b0/b1/b2, mobilenet_v2")
+
+    # ---- Replace the classifier layer ----
+    # Each architecture has a different name for its final classification layer
+    if 'resnet' in model_name:
+        in_features = model.fc.in_features
+        model.fc = nn.Linear(in_features, num_classes)
+        classifier_param_names = ["fc"]
+
+    elif 'efficientnet' in model_name:
+        in_features = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(in_features, num_classes)
+        classifier_param_names = ["classifier"]
+
+    elif 'mobilenet' in model_name:
+        in_features = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(in_features, num_classes)
+        classifier_param_names = ["classifier"]
+
+    # ---- Freeze / unfreeze layers ----
+    if freeze_base:
+        # Freeze everything
+        for param in model.parameters():
+            param.requires_grad = False
+
+        # Unfreeze classifier + optionally one intermediate layer (ResNet only)
+        for name, param in model.named_parameters():
+            is_classifier = any(c in name for c in classifier_param_names)
+            is_unfreeze_layer = (unfreeze_layer in name) and ('resnet' in model_name)
+            if is_classifier or is_unfreeze_layer:
+                param.requires_grad = True
+    # If freeze_base=False, all layers are trainable (full fine-tuning)
+
     model = model.to(device)
-    
+
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f"Fine-tuning - Trainable parameters: {trainable_params:,}")
-    
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"Model: {model_name} | "
+          f"Trainable: {trainable_params:,} / {total_params:,} params")
+
     return model
