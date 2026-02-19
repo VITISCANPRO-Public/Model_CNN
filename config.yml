@@ -16,12 +16,12 @@ default_training:
   optimizer: "Adam"
   loss_function: "CrossEntropyLoss"
   batch_size: 32
-  epochs: 50
+  epochs: 40
   learning_rate: 0.0001
 
-  # weight_decay: 0.0001 # Régularisation L2
-  # scheduler_patience: 5 # Pour réduire le LR si la validation stagne
-  # early_stopping_patience: 10 # Pour arrêter l'entraînement si la validation stagne
+  # weight_decay: 0.0001 # L2 Regularization
+  # scheduler_patience: 5 # To reduce the learning rate if the validation process is stalled
+  # early_stopping_patience: 10 # To stop the training if the validation process is stalled
 
 
 #                                    MODELS TO RUN
@@ -33,18 +33,18 @@ models_to_run:
   - name: "resnet18"
     input_size: 224
     freeze_base: True
-    description: "ResNet-18, Transfer learning"
+    description: "ResNet-18, Transfer learning (baseline)"
+
+  - name: "resnet18"
+    input_size: 224
+    freeze_base: false
+    unfreeze_layer: "layer4"
+    description: "ResNet-18, Fine-tuning (for comparison)"
     
   - name: "resnet34"
     input_size: 224
     freeze_base: True
-    description: "ResNet-34, Transfer learning"
-
-  - name: "resnet50"
-    input_size: 224
-    freeze_base: False
-    learning_rate: 0.00005
-    description: "ResNet-50, Fine-tuning"
+    description: "ResNet-34, Transfer learning (deeper architecture)"
 
 
   # --- EfficientNets ---
@@ -52,25 +52,36 @@ models_to_run:
     input_size: 224
     freeze_base: False
     learning_rate: 0.00005
-    description: "EfficientNet B0, Fine-Tuning"
+    description: "EfficientNet B0, Fine-Tuning (different architecture)"
 
-  - name: "efficientnet_b1"
-    input_size: 240 # Recommanded size
-    freeze_base: False
-    learning_rate: 0.00005
-    description: "EfficientNet B1, Fine-Tuning"
 
-  - name: "efficientnet_b2"
-    input_size: 260  # Recommanded size
-    freeze_base: False
-    learning_rate: 0.00005
-    description: "EfficientNet B2, Plus performant, Fine-Tuning"
+# Models below require GPU or longer training time
+ 
+#  # --- ResNets ---
+#   - name: "resnet50"
+#     input_size: 224
+#     freeze_base: False
+#     learning_rate: 0.00005
+#     description: "ResNet-50, Fine-tuning"
+
+#  # --- EfficientNets ---
+#   - name: "efficientnet_b1"
+#     input_size: 240 # Recommanded size
+#     freeze_base: False
+#     learning_rate: 0.00005
+#     description: "EfficientNet B1, Fine-Tuning"
+
+#   - name: "efficientnet_b2"
+#     input_size: 260  # Recommanded size
+#     freeze_base: False
+#     learning_rate: 0.00005
+#     description: "EfficientNet B2, Plus performant, Fine-Tuning"
     
-  # --- MobileNet ---
-  - name: "mobilenet_v2"
-    input_size: 224
-    freeze_base: True 
-    description: "MobileNetV2, Trasnfer learning"
+#   # --- MobileNet ---
+#   - name: "mobilenet_v2"
+#     input_size: 224
+#     freeze_base: True 
+#     description: "MobileNetV2, Trasnfer learning"
 
 
  
