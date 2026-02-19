@@ -12,12 +12,15 @@ from torchinfo import summary
 # ================================================================================================
 
 def get_device():
-
-    """Selects the best available device (CUDA, MPS, or CPU)"""
+    """
+    Selects the best available device (CUDA, MPS, or CPU)
+    Returns : 
+        Device : Best device that can be used for the training
+    """
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
-    elif torch.backends.mps.is_available():  # Apple M1/M2/M3
+    elif torch.backends.mps.is_available():  # For Apple M1/M2/M3
         device = torch.device("mps")
     else:
         device = torch.device("cpu")
@@ -30,17 +33,18 @@ def get_device():
 # ================================================================================================
 
 def create_model_transfer_learning(model_name:str, num_classes: int, device: torch.device, freeze_conv: bool = True):
-
     """
     Creates a model for transfer learning
     
     Args:
+        model name : Name of the model to train
         num_classes: Number of classes to predict
         device: Device (cuda/mps/cpu)
-        freeze_conv: If True, freezes the convolutional layers
-    
+        freeze_conv: If True, freezes all base model parameters 
+        and trains only the classification head.
+
     Returns:
-        model, trainable_params_count
+        model, trainable_params
     """
     
     if model_name=='resnet18':
@@ -76,20 +80,28 @@ def create_model_transfer_learning(model_name:str, num_classes: int, device: tor
     return model, trainable_params
 
 
-def create_model_fine_tuning(num_classes: int, device: torch.device, unfreeze_layer: str = "layer4"):
-    
+
+
+def create_model_fine_tuning(model_name : str, num_classes: int, device: torch.device, unfreeze_layer: str = "layer4"):   
     """
     Creates a model for fine-tuning
     
     Args:
+        model_name: Name of the model to train
         num_classes: Number of classes
-        device: Device
+        device: Device (cuda/mps/cpu)
         unfreeze_layer: Name of the layer to unfreeze ("layer4" : the last layer, by default)
     
     Returns:
         model
     """
-    model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+    # Load the pre-trained model based on model_name
+    if model_name == 'resnet18':
+        model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+    elif model_name == 'resnet34':
+        model = models.resnet34(weights=models.ResNet34_Weights.DEFAULT)
+    else:
+        raise ValueError(f"Unsupported model: {model_name}. Choose 'resnet18' or 'resnet34'.")
     
     # Modify the last layer (Classifier)
     model.fc = nn.Linear(model.fc.in_features, num_classes)

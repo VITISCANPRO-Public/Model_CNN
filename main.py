@@ -84,7 +84,7 @@ def main():
     print("\n[3/6] Model creation...")
     num_classes = len(class_names)
     # model, _ = create_model_transfer_learning(MODEL_NAME,num_classes, device, freeze_conv=True)
-    model= create_model_fine_tuning(num_classes, device, "layer4")
+    model= create_model_fine_tuning(MODEL_NAME, num_classes, device, "layer4")
 
     # 4. Training setup
     print("\n[4/6] Training setup...")
