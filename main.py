@@ -98,10 +98,12 @@ def main():
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
+        test_loader=test_loader,
         criterion=criterion,
         optimizer=optimizer,
         device=device,
         epochs=EPOCHS,
+        patience=int(os.getenv('PATIENCE', '5')), 
         experiment_id=experiment.experiment_id,
         class_names=class_names
     )
