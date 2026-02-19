@@ -4,6 +4,8 @@ data-inrae/raw_data_inrae/
 data-inrae/organized_data_inrae/
 data-kaggle/test/
 data-kaggle/train/
+data-inrae/*
+data-kaggle/*
 
 **/.DS_Store
 model_tests/
