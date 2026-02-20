@@ -1,48 +1,102 @@
-# Projet final FS37 - VitiScan model
+# Vitiscan — CNN Model Training
 
-__Auteurs__ : Mounia, Inti, Samuel, Guillaume
+Grape leaf disease classification using fine-tuned CNN architectures (ResNet, EfficientNet).
+Part of the **Vitiscan MLOps pipeline** for automated vineyard disease detection.
 
-## Préparation de l'environnement
+## Problem
 
-- activer conda
-`source ~/app/miniconda3/etc/profile.d/conda.sh && conda activate`
+Early detection of vine diseases is critical for yield protection. This module trains
+a multi-class classifier to identify 6 diseases + healthy leaves from a single photo.
 
-- vous devez avoir un prompt du type
-`(base)$`
+**Classes:** Colomerus vitis, Elsinoe ampelina, Erysiphe necator, Guignardia bidwellii,
+Phaeomoniella chlamydospora, Plasmopara viticola, Healthy
 
-- créer l'environnement python avec conda
+## Dataset
 
-`(base)$ conda env create -n vitiscan_cnn --file env_vitiscan_cnn.yml`
+Two sources combined:
+- **INRAE** — 6 disease classes scraped from labelled scientific images
+- **Kaggle** — Healthy class only (balanced to ~350 images/class)
 
-ou
+> The Kaggle dataset was initially used for all classes but discarded due to
+> labelling inconsistencies. INRAE data provided higher quality ground truth.
 
-`(base)$ conda env create -f env_vitiscan_cnn.yml`
+Final split: **1040 train / 222 val / 231 test** (70/15/15)
 
-- si vous avec un GPU Nvidia, utilisez le fichier `env_vitiscan_cnn_gpu.yml` (il contient la ligne `- nvidia` dans les channels et `- pytorch-cuda=12.4` dans les dependencies)
+## Models & Results
 
-- activer l'environnement
+| Model | Strategy | Test Accuracy | F1 Macro | Epochs |
+|-------|----------|--------------|----------|--------|
+| ResNet18 | Transfer Learning | 94.8% | 0.946 | 17 |
+| **ResNet18** | **Fine-tuning** | **98.3%** | **0.982** | **13** |
+| ResNet34 | Transfer Learning | 95.7% | 0.951 | 35 |
+| EfficientNet B0 | Fine-tuning | 97.0% | 0.966 | 28 |
 
-`(base)$ conda activate vitiscan_cnn`
+**Selected model: ResNet18 Fine-tuning** — best F1 macro with fastest convergence.
+EfficientNet B0 is a strong alternative for edge/mobile deployment (4x lighter).
 
-- déclarer le noyau ipykernel pour Jupyter (doit être fait avec l'environnement correspondant activé)
+All experiments tracked with **MLflow** at https://mouniat-vitiscanpro-hf.hf.space
 
-`(vitiscan_cnn)$ python -m ipykernel install --user --name vitiscan_cnn --display-name "Vitiscan CNN"`
+## Project Structure
+```
+Model-CNN/
+├── main.py                 # Main training script
+├── config.yml              # Models and hyperparameters configuration
+├── scripts/
+│   ├── config_utils.py     # YAML config loader
+│   ├── data_utils.py       # Dataset download, preparation, dataloaders
+│   ├── model.py            # Model creation (ResNet, EfficientNet, MobileNet)
+│   ├── training.py         # Training loop with MLflow logging
+│   └── visualisation.py    # Training curves
+├── notebooks/
+│   ├── CNN_model.ipynb     # Exploratory training (Kaggle dataset)
+│   └── CNN_model_FT.ipynb  # Fine-tuning exploration (INRAE dataset)
+└── tests/
+    └── test_model.py
+```
 
-- pour ajouter une lib, ajoutez là aux dépendances et faite
-`conda env update -f env_vitiscan_cnn.yml`
+## Quickstart
 
-## Préparation des données
+**1. Setup environment**
+```bash
+conda env create -f environment.yml
+conda activate vitiscan_cnn
+```
 
-[Dataset Kaggle Grapes Leafs Disease PlantCity 2025](https://www.kaggle.com/datasets/codewithsk/grapes-leafs-disease-7-classes-plantcity-2025)
+**2. Configure your `.env`**
+```bash
+cp .env.example .env
+# Fill in MLFLOW_URI, AWS credentials
+```
 
-A l'extraction du ZIP on s'aperçoit que :
+**3. Run training**
+```bash
+python main.py
+```
 
-- les images sont déjà augmentés par des flips
-- doublonnage du nom de répertoire train/train ou test/test
-- des noms de répertoire pour les classes pas bien normalisés
+The script will automatically:
+- Download the Kaggle dataset
+- Build the combined INRAE + Kaggle dataset
+- Train all models defined in `config.yml`
+- Log metrics and models to MLflow
 
+## Configuration
 
-## Lancement de l'entrainement des données
+Edit `config.yml` to change models or hyperparameters:
+```yaml
+default_training:
+  epochs: 45
+  patience: 7
+  learning_rate: 0.0001
 
+models_to_run:
+  - name: "resnet18"
+    freeze_base: false
+    unfreeze_layer: "layer4"
+```
 
+## Requirements
 
+- Python 3.11
+- PyTorch >= 2.5.0 with MPS/CUDA support
+- MLflow 3.7.0
+- See `environment.yml` for full list
