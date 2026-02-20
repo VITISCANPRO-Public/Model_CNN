@@ -50,8 +50,6 @@ def main():
 
     # --- MLflow setup ---
     mlflow.set_tracking_uri(MLFLOW_URI)
-    mlflow.set_experiment(EXPERIMENT_NAME)
-    experiment = mlflow.get_experiment_by_name(EXPERIMENT_NAME)
 
     print("=" * 60)
     print("VITISCAN - CNN MODEL TRAINING")
@@ -107,20 +105,23 @@ def main():
 
     for i, model_cfg in enumerate(models_to_run):
 
-        model_name     = model_cfg['name']
-        freeze_base    = model_cfg['freeze_base']
+        model_name = model_cfg['name']
+        freeze_base = model_cfg['freeze_base']
         unfreeze_layer = model_cfg.get('unfreeze_layer', 'layer4')
         # Model-specific lr overrides global default if specified in config
-        lr             = float(model_cfg.get('learning_rate',
+        lr = float(model_cfg.get('learning_rate',
                                config['default_training']['learning_rate']))
-        epochs         = int(os.getenv('EPOCHS',  config['default_training']['epochs']))
-        patience       = int(os.getenv('PATIENCE', config['default_training'].get('patience', 5)))
+        epochs = int(os.getenv('EPOCHS',  config['default_training']['epochs']))
+        patience = int(os.getenv('PATIENCE', config['default_training'].get('patience', 5)))
 
-        mode      = "Transfer Learning" if freeze_base else "Fine-tuning"
-        run_label = f"{model_name} ({mode})"
+        mode = "Transfer Learning" if freeze_base else "Fine-tuning"
+        run_experiment_name = f"{EXPERIMENT_NAME}_{model_name}_{mode}"
+
+        mlflow.set_experiment(run_experiment_name)
+        experiment = mlflow.get_experiment_by_name(run_experiment_name)
 
         print("=" * 60)
-        print(f"Model {i+1}/{len(models_to_run)}: {run_label}")
+        print(f"Model {i+1}/{len(models_to_run)}: {run_experiment_name}")
         print(f"  Description : {model_cfg.get('description', '')}")
         print(f"  LR: {lr} | Epochs: {epochs} | Patience: {patience}")
         print("=" * 60)
@@ -145,7 +146,7 @@ def main():
 
         # --- Train ---
         history = train(
-            model_name=run_label,
+            model_name=run_experiment_name,
             model=model,
             train_loader=train_loader,
             val_loader=val_loader,
@@ -160,7 +161,7 @@ def main():
         )
 
         # --- Visualize training curves ---
-        plot_training_history(history, run_label)
+        plot_training_history(history, run_experiment_name)
 
     print("\n" + "=" * 60)
     print(f"ALL {len(models_to_run)} MODELS TRAINED SUCCESSFULLY")
