@@ -6,6 +6,7 @@ data-kaggle/test/
 data-kaggle/train/
 data-inrae/*
 data-kaggle/*
+data/
 
 **/.DS_Store
 model_tests/
