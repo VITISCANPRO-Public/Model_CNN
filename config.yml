@@ -14,16 +14,9 @@ data:
   test_split: 0.15
 
 # # --- Default training hyperparameters ---
-# default_training:
-#   optimizer: "Adam"
-#   loss_function: "CrossEntropyLoss"
-#   batch_size: 32
-#   epochs: 40
-#   learning_rate: 0.0001
-#   patience: 5
-
 default_training:
-  epochs: 2
+  epochs: 45
+  patience: 7 # For early stopping
   batch_size: 32
   learning_rate: 0.0001
 
@@ -43,24 +36,25 @@ models_to_run:
     freeze_base: True
     description: "ResNet-18, Transfer learning (baseline)"
 
-  # - name: "resnet18"
-  #   input_size: 224
-  #   freeze_base: false
-  #   unfreeze_layer: "layer4"
-  #   description: "ResNet-18, Fine-tuning (for comparison)"
+  - name: "resnet18"
+    input_size: 224
+    freeze_base: false
+    unfreeze_layer: "layer4"
+    description: "ResNet-18, Fine-tuning (for comparison)"
     
-  # - name: "resnet34"
-  #   input_size: 224
-  #   freeze_base: True
-  #   description: "ResNet-34, Transfer learning (deeper architecture)"
+  - name: "resnet34"
+    input_size: 224
+    freeze_base: True
+    learning_rate: 0.00005 
+    description: "ResNet-34, Transfer learning (deeper architecture)"
 
 
-  # # --- EfficientNets ---
-  # - name: "efficientnet_b0"
-  #   input_size: 224
-  #   freeze_base: False
-  #   learning_rate: 0.00005
-  #   description: "EfficientNet B0, Fine-Tuning (different architecture)"
+  # --- EfficientNets ---
+  - name: "efficientnet_b0"
+    input_size: 224
+    freeze_base: False
+    learning_rate: 0.00005
+    description: "EfficientNet B0, Fine-Tuning (different architecture)"
 
 
 # Models below require GPU or longer training time
