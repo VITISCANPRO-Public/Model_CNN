@@ -75,9 +75,15 @@ def create_model(model_name: str, num_classes: int, device: torch.device,
 
     # ---- Replace the classifier layer ----
     # Each architecture has a different name for its final classification layer
-    if 'resnet' in model_name:
+    if 'resnet' in model_name :
         in_features = model.fc.in_features
-        model.fc = nn.Linear(in_features, num_classes)
+        if freeze_base : 
+            model.fc = nn.Linear(in_features,num_classes) # Transfert learning
+        else: # For fine tuning
+            model.fc = nn.Sequential(
+                nn.Dropout (p=0.3), # To reduce overfitting
+                nn.Linear(model.fc.in_features, num_classes)
+            )
         classifier_param_names = ["fc"]
 
     elif 'efficientnet' in model_name:
