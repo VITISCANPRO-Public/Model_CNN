@@ -1,5 +1,6 @@
 data/*.zip
 data-*/*.zip
+data-*/
 data-inrae/raw_data_inrae/
 data-inrae/organized_data_inrae/
 data-kaggle/test/
