@@ -1,28 +1,52 @@
-data/*.zip
-data-*/*.zip
-data-*/
-data-inrae/raw_data_inrae/
-data-inrae/organized_data_inrae/
-data-kaggle/test/
-data-kaggle/train/
+# ── Datasets (downloaded at runtime, not committed) ──
+data/
 data-inrae/*
 data-kaggle/*
-data/
+data-inrae/raw_data_inrae/
+data-inrae/organized_data_inrae/
+data-inrae/*.jpg
+data-inrae/*.jpeg
+data-inrae/*.png
+data-kaggle/train/
+data-kaggle/test/
+data-combined/
+*.zip
+!data-inrae/README.md
+!data-kaggle/README.md
+# ── Secrets ──
+.env
 
-**/.DS_Store
-model_tests/
-
-# Python-generated files
+# ── Python ──
 __pycache__/
-*.py[oc]
+*.py[cod]
+*.egg-info/
 build/
 dist/
 wheels/
 *.egg-info
 .env
 
-# Virtual environments
-.venv
-env_mounia
+# ── Virtual environments ──
+.venv/
 env_mounia/
+vitiscan_cnn/
 
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Model artifacts (tracked by MLflow, not by git) ──
+*.pt
+*.pth
+*.pkl
+*.onnx
+model_tests/
+
+# ── Jupyter ──
+.ipynb_checkpoints/
