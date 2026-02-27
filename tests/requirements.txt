@@ -1,36 +1,30 @@
-pip
-  
-# PyTorch avec CUDA
+# ── PyTorch ──
 torch>=2.5.0
 torchvision>=0.20.0
-#torchaudio>=2.5.0
-  
-  # MLflow et tracking
+torchaudio>=2.5.0
+
+# ── MLflow & tracking ──
 mlflow==3.7.0
 tensorboard>=2.18.0
 protobuf>=5.29.0
 cloudpickle>=3.1.0
 pyarrow>=18.0.0
-  
-  # ML utilities et optimisation
-shap>=0.46.0
-#optuna>=4.1.0
-  
-  # AWS pour MLFlow
-boto3==1.35.79
-#s3fs==2025.12.0
 
-  # Dépendances scientifiques core
+# ── AWS / S3 ──
+boto3==1.35.79
+s3fs==2025.12.0
+
+# ── Scientific core ──
 numpy>=1.26.0
 pandas>=2.2.0
 scikit-learn>=1.5.0
-  
-  # Visualisation
+
+# ── Visualization ──
 matplotlib>=3.9.0
 plotly==5.24.0
-#seaborn>=0.13.0
-  
-  # Utilitaires
+seaborn>=0.13.0
+
+# ── Utilities ──
 pyyaml>=6.0
 tqdm>=4.66.0
 pillow>=10.0.0
@@ -38,5 +32,9 @@ requests>=2.31.0
 torchinfo==1.8.0
 python-dotenv
 
-# testing
-pytest
+# ── Optimization ──
+shap>=0.46.0
+optuna>=4.1.0
+
+# ── Testing ──
+pytest>=8.0.0
