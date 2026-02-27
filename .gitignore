@@ -2,17 +2,11 @@
 data/
 data-inrae/*
 data-kaggle/*
-data-inrae/raw_data_inrae/
-data-inrae/organized_data_inrae/
-data-inrae/*.jpg
-data-inrae/*.jpeg
-data-inrae/*.png
-data-kaggle/train/
-data-kaggle/test/
 data-combined/
 *.zip
 !data-inrae/README.md
 !data-kaggle/README.md
+
 # ── Secrets ──
 .env
 
@@ -24,7 +18,7 @@ build/
 dist/
 wheels/
 *.egg-info
-.env
+
 
 # ── Virtual environments ──
 .venv/
@@ -50,3 +44,8 @@ model_tests/
 
 # ── Jupyter ──
 .ipynb_checkpoints/
+
+# ── Testing ──
+.pytest_cache/
+htmlcov/
+.coverage
