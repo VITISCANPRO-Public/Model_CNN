@@ -1,40 +1,27 @@
-# ── PyTorch ──
+# ── Core ML (imported by scripts/model.py) ──
 torch>=2.5.0
 torchvision>=0.20.0
-torchaudio>=2.5.0
+torchinfo==1.8.0
 
-# ── MLflow & tracking ──
+# ── MLflow (imported by scripts/training.py) ──
 mlflow==3.7.0
-tensorboard>=2.18.0
-protobuf>=5.29.0
-cloudpickle>=3.1.0
-pyarrow>=18.0.0
-
-# ── AWS / S3 ──
 boto3==1.35.79
-s3fs==2025.12.0
 
-# ── Scientific core ──
+# ── Scientific (imported by scripts/training.py, data_utils.py) ──
 numpy>=1.26.0
-pandas>=2.2.0
 scikit-learn>=1.5.0
+pillow>=10.0.0
 
-# ── Visualization ──
+# ── Visualization (imported by scripts/training.py, visualisation.py) ──
 matplotlib>=3.9.0
 plotly==5.24.0
 seaborn>=0.13.0
 
-# ── Utilities ──
+# ── Utilities (imported by scripts/) ──
 pyyaml>=6.0
 tqdm>=4.66.0
-pillow>=10.0.0
 requests>=2.31.0
-torchinfo==1.8.0
 python-dotenv
-
-# ── Optimization ──
-shap>=0.46.0
-optuna>=4.1.0
 
 # ── Testing ──
 pytest>=8.0.0
