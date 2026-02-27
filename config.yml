@@ -1,6 +1,6 @@
 #                                 GLOBAL CONFIGURATION
 # =====================================================================================
-experiment_name: "Vitiscan_CNN"
+experiment_name: "Vitiscan_CNN_resnet_inrae"
 project_version: "1.0"
 
 # ---- Data configuration ---
