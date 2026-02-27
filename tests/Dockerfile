@@ -1,30 +1,25 @@
-# 1. Base Image
+# ── Test runner image for CI ──
+# Runs pytest on the Model-CNN codebase without training data or GPU.
+
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# 2. System Dependencies
+# System dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    curl git && \
+    rm -rf /var/lib/apt/lists/*
 
-# 3. Copy Manifest
+# Install test dependencies
 COPY tests/requirements.txt .
-
-# 4. INSTALLATION (With Debugging)
-# We 'cat' the file to the build logs so you can SEE if pandas is listed.
- RUN echo "===== CHECKING REQUIREMENTS =====" && \
-    cat requirements.txt && \
-    echo "====== UPGRADE PIP ==============" && \
-    pip install --upgrade pip && \
-    echo "=================================" && \
+RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# 5. Copy Application Code
+# Copy application code
 COPY . .
 
-# 6. Runtime Config
+# Ensure Python can find the scripts/ package
 ENV PYTHONPATH=/app
-#CMD ["python", "app/train.py"]
-CMD ["python", "-m", "pytest", "tests/"]
+
+# Run tests
+CMD ["python", "-m", "pytest", "tests/", "-v", "--tb=short"]
