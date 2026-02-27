@@ -1,0 +1,33 @@
+# Data (downloaded at runtime, not baked into image)
+data/
+data-inrae/
+data-kaggle/
+data-combined/
+
+# Git
+.git
+.gitattributes
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.venv/
+env_mounia/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+# Notebooks (not needed in training container)
+notebooks/
+*.ipynb
