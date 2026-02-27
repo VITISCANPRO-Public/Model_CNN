@@ -17,8 +17,8 @@ RUN pip install --upgrade pip && \
 # 4. Copy application code
 COPY . .
 
-# 5. Environment variables
+# 5. Ensure all modules are importable
 ENV PYTHONPATH=/app
 
-# 6. Default command: run training
+# 6. Default: run the full training pipeline
 CMD ["python", "main.py"]
