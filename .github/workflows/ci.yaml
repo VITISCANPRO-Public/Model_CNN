@@ -30,6 +30,4 @@ jobs:
         run: docker build -t vitiscan-cnn-tests -f tests/Dockerfile .
 
       - name: Run unit tests
-        run: |
-          docker run --rm vitiscan-cnn-tests \
-            python -m pytest tests/ -v --tb=short
+        run: docker run --rm vitiscan-cnn-tests
