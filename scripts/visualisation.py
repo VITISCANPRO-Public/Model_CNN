@@ -31,7 +31,8 @@ def plot_training_history(history: dict, title: str = "Training History"):
         xaxis_title='Epochs',
         yaxis_title='Cross Entropy Loss'
     )
-    fig_loss.show()
+    fig_loss.write_html(f"{title}_loss.html")
+    print(f"Loss plot saved: {title}_loss.html")
     
     # Accuracy
     fig_acc = go.Figure(data=[
@@ -53,4 +54,5 @@ def plot_training_history(history: dict, title: str = "Training History"):
         xaxis_title='Epochs',
         yaxis_title='Accuracy'
     )
-    fig_acc.show()
+    fig_acc.write_html(f"{title}_accuracy.html")
+    print(f"Accuracy plot saved: {title}_accuracy.html")
