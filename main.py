@@ -8,8 +8,11 @@
 #                                         LIBRARIES IMPORT
 # ================================================================================================
 
+import random
+import numpy as np
 import os
 import mlflow
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from dotenv import load_dotenv
@@ -38,6 +41,13 @@ def main():
 
     # --- Device ---
     device = get_device()
+
+    # --- Reproducibility ---
+    SEED = 42
+    random.seed(SEED)
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed_all(SEED)
 
     # --- Global settings (from config, overridable by .env) ---
     INRAE_DIR = Path(os.getenv('INRAE_DIR', config['data'].get('inrae_dir','./data-inrae')))
