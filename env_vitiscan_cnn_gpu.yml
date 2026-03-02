@@ -12,7 +12,6 @@ dependencies:
   # PyTorch with CUDA
   - pytorch>=2.5.0
   - torchvision>=0.20.0
-  - torchaudio>=2.5.0
   - pytorch-cuda=12.4 # if Nvidia GPU 
   
   # MLflow and tracking
