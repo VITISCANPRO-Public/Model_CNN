@@ -7,6 +7,20 @@ data-combined/
 # Git
 .git
 .gitattributes
+.gitignore
+
+# CI/CD workflows
+.github/
+
+# Documentation
+README.md
+
+# Conda environments (not used by Docker)
+environment.yml
+env_vitiscan_cnn_gpu.yml
+
+# Environment template
+.env.template
 
 # Python artifacts
 __pycache__/
@@ -15,7 +29,7 @@ __pycache__/
 dist/
 build/
 
-# Environment
+# Environment & secrets
 .env
 .venv/
 env_mounia/
@@ -27,6 +41,7 @@ env_mounia/
 
 # OS
 .DS_Store
+Thumbs.db
 
 # Notebooks (not needed in training container)
 notebooks/

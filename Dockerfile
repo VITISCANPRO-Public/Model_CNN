@@ -4,9 +4,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # 2. System dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Copy and install Python dependencies

@@ -1,27 +1,26 @@
-# ── Core ML (imported by scripts/model.py) ──
-torch>=2.5.0
-torchvision>=0.20.0
+# ── Core ML (required to import scripts/) ──
+torch==2.10.0
+torchvision==0.25.0
 torchinfo==1.8.0
 
-# ── MLflow (imported by scripts/training.py) ──
+# ── Data & Science ──
+numpy==2.3.5
+pandas==2.3.3
+scikit-learn==1.8.0
+pillow==12.1.1
+
+# ── MLflow (required by scripts/training.py) ──
 mlflow==3.7.0
 boto3==1.35.79
 
-# ── Scientific (imported by scripts/training.py, data_utils.py) ──
-numpy>=1.26.0
-scikit-learn>=1.5.0
-pillow>=10.0.0
-
-# ── Visualization (imported by scripts/training.py, visualisation.py) ──
-matplotlib>=3.9.0
+# ── Config & Utils ──
+pyyaml==6.0.3
+python-dotenv==1.2.1
+requests==2.32.5
+tqdm==4.67.3
+matplotlib==3.10.8
 plotly==5.24.0
-seaborn>=0.13.0
-
-# ── Utilities (imported by scripts/) ──
-pyyaml>=6.0
-tqdm>=4.66.0
-requests>=2.31.0
-python-dotenv
+seaborn==0.13.2
 
 # ── Testing ──
-pytest>=8.0.0
+pytest==8.3.4
