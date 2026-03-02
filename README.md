@@ -70,7 +70,7 @@ Model-CNN/
 └── .github/
     └── workflows/
         └── ci.yaml                 # CI pipeline (GitHub Actions)
-
+```
 ## Quickstart
 
 **1. Setup environment**
