@@ -44,6 +44,11 @@ def main():
     KAGGLE_DIR = Path(os.getenv('KAGGLE_DIR',config['data'].get('kaggle_dir','./data-kaggle')))
     OUTPUT_DIR = Path(os.getenv('DATA_DIR',config['data'].get('output_dir','./data-combined')))
     KAGGLE_URL = os.getenv('DATASET_URL')
+    if not KAGGLE_URL:
+        raise ValueError(
+        "DATASET_URL is not set. "
+        "Please define it in your .env file (see .env.template)."
+        )
     BATCH_SIZE = int(os.getenv('BATCH_SIZE',config['default_training']['batch_size']))
     MLFLOW_URI = os.getenv('MLFLOW_URI')
     EXPERIMENT_NAME = os.getenv('EXPERIMENT_NAME', config['experiment_name'])
