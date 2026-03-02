@@ -320,7 +320,7 @@ def create_dataloaders(train_dataset, val_dataset, test_dataset,
 
 
 def visualize_batch(train_loader: DataLoader, class_names: list,
-                    n_images: int = 9) -> None:
+                    n_images: int = 9, save_path: str = None) -> None:
     """
     Visualizes a batch of training images in a grid.
 
@@ -349,4 +349,9 @@ def visualize_batch(train_loader: DataLoader, class_names: list,
         axes[j].axis('off')
 
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path, dpi=150, bbox_inches='tight')
+        print(f"Batch visualization saved: {save_path}")
+    else:
+        plt.show()
+    plt.close()
