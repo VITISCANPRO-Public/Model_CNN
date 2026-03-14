@@ -21,15 +21,11 @@ dependencies:
   - cloudpickle>=3.1.0
   - pyarrow>=18.0.0
   
-  # ML utilities and optimization
-  - shap>=0.46.0
-  - optuna>=4.1.0
-  
   # AWS for MLFlow
   - boto3==1.35.79
   - s3fs==2025.12.0
 
-  # Scientific dependancies
+  # Scientific dependencies
   - numpy>=1.26.0
   - pandas>=2.2.0
   - scikit-learn>=1.5.0
