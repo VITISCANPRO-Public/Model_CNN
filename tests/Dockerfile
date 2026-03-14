@@ -11,9 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install test dependencies
-COPY tests/requirements.txt .
+COPY requirements.txt /app/requirements.txt
+COPY tests/requirements.txt /app/test-requirements.txt
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r /app/test-requirements.txt
 
 # Copy application code
 COPY . .
