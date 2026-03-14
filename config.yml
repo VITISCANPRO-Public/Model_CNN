@@ -83,7 +83,7 @@ models_to_run:
 #   - name: "mobilenet_v2"
 #     input_size: 224
 #     freeze_base: True 
-#     description: "MobileNetV2, Trasnfer learning"
+#     description: "MobileNetV2, Transfer learning"
 
 
  
